@@ -21,6 +21,7 @@ FROM node:alpine
 
 # Set NODE_ENV to production
 ENV NODE_ENV=production
+ENV DATABASE_URL=file:/data/boatspark.db
 
 # Set the working directory
 WORKDIR /app
@@ -28,6 +29,7 @@ WORKDIR /app
 # Copy only the necessary files from the builder stage
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules/.prisma/client ./node_modules/.prisma/client/
 
 # Install only production dependencies
 RUN npm ci --only=production

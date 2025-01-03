@@ -84,8 +84,8 @@ const processEvent = (data: string) => {
   });
 
   if (event.gps.fix) {
-    boat.location.latitude = event.gps.lat / 10000000.0;
-    boat.location.longitude = event.gps.lng / 10000000.0;
+    boat.location.latitude = event.gps.lat as number / 10000000.0;
+    boat.location.longitude = event.gps.lng as number / 10000000.0;
   }
 
   boat.battery.voltage1 = event.gpio.b1 / 100.0;

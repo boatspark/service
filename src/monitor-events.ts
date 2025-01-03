@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { saveMonitorEvent, saveAlertEvent, getLatestMonitorEvent, getLatestAlertEvent } from './db';
 
 export const handleEvent = async (req: Request, res: Response) => {
   try {
@@ -14,24 +12,20 @@ export const handleEvent = async (req: Request, res: Response) => {
 
     if (data.event === "boatspark/monitor") {
       // Save monitor event to database
-      await prisma.monitorEvent.create({
-        data: {
-          coreid: data.coreid,
-          data: data.data,
-          published_at: new Date(data.published_at),
-        },
+      await saveMonitorEvent({
+        coreid: data.coreid,
+        data: data.data,
+        published_at: new Date(data.published_at)
       });
       console.log("Monitor event saved");
     } else if (data.event === "boatspark/alert") {
       // Notify user of alert
       console.log("TODO: send alert notification");
       // Save alert in database
-      await prisma.alertEvent.create({
-        data: {
-          coreid: data.coreid,
-          data: data.data,
-          published_at: new Date(data.published_at),
-        },
+      await saveAlertEvent({
+        coreid: data.coreid,
+        data: data.data,
+        published_at: new Date(data.published_at)
       });
       console.log("Alert event saved");
     } else {
@@ -47,9 +41,7 @@ export const handleEvent = async (req: Request, res: Response) => {
 
 export const getLatestEvent = async (req: Request, res: Response) => {
   try {
-    const latestMonitorEvent = await prisma.monitorEvent.findFirst({
-      orderBy: { published_at: 'desc' },
-    });
+    const latestMonitorEvent = await getLatestMonitorEvent();
     res.json(latestMonitorEvent);
   } catch (error: any) {
     console.error(error);

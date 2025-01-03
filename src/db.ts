@@ -22,14 +22,18 @@ export const saveAlertEvent = async (data: { coreid: string, data: string, publi
   });
 };
 
-export const getLatestMonitorEvent = async () => {
+export const getLatestMonitorEvent = async (coreid: string) => {
+  if (!coreid) throw new Error('Missing coreid');
   return prisma.monitorEvent.findFirst({
+    where: { coreid },
     orderBy: { published_at: 'desc' },
   });
 };
 
-export const getLatestAlertEvent = async () => {
+export const getLatestAlertEvent = async (coreid: string) => {
+  if (!coreid) throw new Error('Missing coreid');
   return prisma.alertEvent.findFirst({
+    where: { coreid },
     orderBy: { published_at: 'desc' },
   });
 };

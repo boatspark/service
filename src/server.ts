@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import { router } from '@/api-router';
+import { router as api } from '@/api-router';
+import { router as metrics } from '@/metrics-router';
 
 // Define the port from environment variables or default to 3000
 const port = process.env.PORT || 3000;
@@ -18,8 +19,9 @@ app.disable('x-powered-by');
 // Define a simple route for the root URL
 app.get('/', (req, res) => { res.end(); });
 
-// Use the API router for all routes starting with '/api'
-app.use('/api', router);
+// Use the routers for matching routes
+app.use('/api', api);
+app.use('/metrics', metrics);
 
 // Start the server and listen on the defined port
 app.listen(port, () => {

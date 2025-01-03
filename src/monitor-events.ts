@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { saveMonitorEvent, saveAlertEvent, getLatestMonitorEvent, getLatestAlertEvent } from './db';
+import { saveMonitorEvent, saveAlertEvent, getLatestMonitorEvent } from '@/db';
 
 export const handleEvent = async (req: Request, res: Response) => {
   try {
@@ -39,9 +39,12 @@ export const handleEvent = async (req: Request, res: Response) => {
   }
 };
 
+// Return the latest monitor event for a given coreid
 export const getLatestEvent = async (req: Request, res: Response) => {
   try {
-    const latestMonitorEvent = await getLatestMonitorEvent();
+    const coreid = req.query.id as string;
+    const latestMonitorEvent = await getLatestMonitorEvent(coreid);
+
     res.json(latestMonitorEvent);
   } catch (error: any) {
     console.error(error);

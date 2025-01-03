@@ -1,4 +1,7 @@
 node_modules
 dist
 .env
-dev.db*
+dev.db
+dev.db-journal
+boatspark.db
+boatspark.db-journal

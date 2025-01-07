@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import e, { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { authenticateUser, userById } from '@/db';
 
@@ -54,7 +54,9 @@ export const authenticateAccessToken = (req: any, res: Response, next: NextFunct
   }
 
   jwt.verify(tokens[1] as string, JWT_SECRET, (err, user) => {
-    if (err) return res.status(401).json({ message: 'Unauthorized' });
+    if (err) {
+      return res.status(401).json({ message: err.name === 'TokenExpiredError' ? 'Expired' : 'Unauthorized' });
+    }
     req.user = user; // Attach decoded user info to the request object
     next();
   });

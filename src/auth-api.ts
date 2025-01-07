@@ -43,8 +43,3 @@ export const authenticateJWT = (req: any, res: Response, next: NextFunction) => 
     next();
   });
 };
-
-export const testAuth = async (req: any, res: Response) => {
-  const userid = req.user.userid;
-  res.status(200).json({ message: 'test', id: userid });
-};

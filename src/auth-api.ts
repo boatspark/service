@@ -4,6 +4,8 @@ import { authenticateUser, userById } from '@/db';
 
 const JWT_EXPIRATION = process.env.JWT_EXPIRATION || "1h";
 const JWT_SECRET = process.env.JWT_SECRET as string;
+const JWT_REFRESH_EXPIRATION = process.env.JWT_REFRESH_EXPIRATION || "7d";
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET as string;
 
 export const handleLogin = async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -21,13 +23,27 @@ export const handleLogin = async (req: Request, res: Response) => {
     return;
   }
 
-  // Create JWT Token
+  // Create JWT Tokens
   const assertions = { userid, username };
-  const token = jwt.sign(assertions, JWT_SECRET,
-    { expiresIn: JWT_EXPIRATION }
-  );
+  const accessToken = jwt.sign(assertions, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
+  const refreshToken = jwt.sign(assertions, JWT_REFRESH_SECRET, { expiresIn: JWT_REFRESH_EXPIRATION });
 
-  res.status(200).json({ message: 'Login successful', token });
+  res.status(200).json({ message: 'Login successful', accessToken, refreshToken });
+};
+
+export const refreshAccessToken = (req: Request, res: Response) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    res.status(400).json({ message: 'Refresh token is required' });
+    return;
+  }
+
+  jwt.verify(refreshToken as string, JWT_REFRESH_SECRET, (err, user: any) => {
+    if (err) return res.status(403).json({ message: 'Invalid refresh token' });
+    const newAccessToken = jwt.sign({ userid: user.userid, username: user.username }, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
+    res.status(200).json({ accessToken: newAccessToken });
+  });
 };
 
 export const authenticateJWT = (req: any, res: Response, next: NextFunction) => {

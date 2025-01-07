@@ -1,6 +1,6 @@
 import express from 'express';
 import { handleEvent, getLatestEvent } from '@/device-api';
-import { handleLogin, authenticateJWT } from '@/auth-api';
+import { handleLogin, authenticateJWT, refreshAccessToken } from '@/auth-api';
 import { handleTest } from './app-api';
 import basicAuth from 'express-basic-auth';
 
@@ -20,6 +20,8 @@ deviceRouter.post('/event', handleEvent);
 deviceRouter.get('/latest', getLatestEvent);
 
 router.post('/login', handleLogin);
+router.post('/refresh', refreshAccessToken);
+
 const appRouter = express.Router();
 router.use("/app", appRouter);
 appRouter.use(authenticateJWT);

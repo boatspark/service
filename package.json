@@ -8,7 +8,7 @@
     "build": "rimraf dist && tsc --noEmit false && prisma generate --no-hints && tsc-alias",
     "start": "node dist/server.js",
     "dev": "NODE_ENV=development tsx watch src/server",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "node prisma/seed.js"
   },
   "license": "MIT",
   "dependencies": {

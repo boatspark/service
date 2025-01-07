@@ -12,7 +12,9 @@ router.use(express.json());
 
 deviceRouter.use(basicAuth({
   users: { [process.env.AUTH_USER as string]: process.env.AUTH_PASS as string },
-  unauthorizedResponse: 'Unauthorized'
+  unauthorizedResponse: () => {
+    return { message: 'Unauthorized' };
+  }
 }));
 deviceRouter.post('/event', handleEvent);
 deviceRouter.get('/latest', getLatestEvent);
@@ -22,3 +24,8 @@ const appRouter = express.Router();
 router.use("/app", appRouter);
 appRouter.use(authenticateJWT);
 appRouter.get('/test', handleTest);
+
+// Handle undefined routes
+router.use((req, res) => {
+  res.status(401).json({ message: 'Unauthorized' });
+});

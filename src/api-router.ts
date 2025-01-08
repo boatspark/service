@@ -27,7 +27,7 @@ const appRouter = express.Router();
 router.use("/app", appRouter);
 appRouter.use(authenticateAccessToken);
 appRouter.get('/test', handleTest);
-appRouter.get('/latest', latestEvent);
+appRouter.post('/latest', latestEvent);
 
 // Handle undefined routes
 router.use((req: Request, res: Response) => {

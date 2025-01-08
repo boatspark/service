@@ -1,4 +1,5 @@
 import express from 'express';
+import { Request, Response } from 'express';
 import { handleEvent, getLatestEvent } from '@/device-api';
 import { handleLogin, authenticateAccessToken, refreshAccessToken } from '@/auth-api';
 import { handleTest, latestEvent } from './app-api';
@@ -29,6 +30,7 @@ appRouter.get('/test', handleTest);
 appRouter.get('/latest', latestEvent);
 
 // Handle undefined routes
-router.use((req, res) => {
+router.use((req: Request, res: Response) => {
+  console.error("Unknown route: ", req.originalUrl);
   res.status(401).json({ message: 'Unauthorized' });
 });

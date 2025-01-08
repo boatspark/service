@@ -1,7 +1,7 @@
 import express from 'express';
 import { handleEvent, getLatestEvent } from '@/device-api';
 import { handleLogin, authenticateAccessToken, refreshAccessToken } from '@/auth-api';
-import { handleTest } from './app-api';
+import { handleTest, latestEvent } from './app-api';
 import basicAuth from 'express-basic-auth';
 
 export const router = express.Router();
@@ -26,6 +26,7 @@ const appRouter = express.Router();
 router.use("/app", appRouter);
 appRouter.use(authenticateAccessToken);
 appRouter.get('/test', handleTest);
+appRouter.get('/latest', latestEvent);
 
 // Handle undefined routes
 router.use((req, res) => {

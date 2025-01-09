@@ -1,8 +1,8 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import { handleEvent, getLatestEvent } from '@/device-api';
-import { handleLogin, authenticateAccessToken, refreshAccessToken } from '@/auth-api';
-import { handleTest, latestEvent } from './app-api';
+import { handleEvent, getLatestEvent } from './device';
+import { handleLogin, authenticateAccessToken, refreshAccessToken } from './auth';
+import { handleTest, latestEvent } from './app';
 import basicAuth from 'express-basic-auth';
 
 export const router = express.Router();

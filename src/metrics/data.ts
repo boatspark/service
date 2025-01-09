@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { Gauge, register } from "prom-client";
 import { getLatestMonitorEvent } from '@/db';
-import { MonitorEvent } from './types';
+import { MonitorEvent } from '../types';
 
 const temperature_galley = new Gauge({
   name: "temperature_galley",

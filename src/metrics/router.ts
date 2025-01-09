@@ -1,6 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import { prepareMetrics } from '@/metrics';
+import { prepareMetrics } from '@/metrics/data';
 
 const getMetrics = async (req: Request, res: Response) => {
   try {

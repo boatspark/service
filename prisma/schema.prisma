@@ -28,7 +28,7 @@ model User {
   email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Device    Device[]
+  devices   Device[]
 }
 
 model Device {
@@ -39,7 +39,7 @@ model Device {
   vesselName String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  Sensor     Sensor[]
+  sensors    Sensor[]
 }
 
 model Sensor {

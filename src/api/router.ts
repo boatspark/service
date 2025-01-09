@@ -2,7 +2,7 @@ import express from 'express';
 import { Request, Response } from 'express';
 import { handleEvent, getLatestEvent } from './device';
 import { handleLogin, authenticateAccessToken, refreshAccessToken } from './auth';
-import { handleTest, latestEvent } from './app';
+import { getUserInfo, latestEvent } from './app';
 import basicAuth from 'express-basic-auth';
 
 export const router = express.Router();
@@ -26,7 +26,7 @@ router.post('/refresh', refreshAccessToken);
 const appRouter = express.Router();
 router.use("/app", appRouter);
 appRouter.use(authenticateAccessToken);
-appRouter.get('/test', handleTest);
+appRouter.get('/user', getUserInfo);
 appRouter.post('/latest', latestEvent);
 
 // Handle undefined routes

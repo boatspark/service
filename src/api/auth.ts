@@ -1,6 +1,6 @@
 import e, { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { authenticateUser, userById } from '@/db';
+import { authenticateUser } from '@/db';
 
 const JWT_EXPIRATION = process.env.JWT_EXPIRATION || "1h";
 const JWT_SECRET = process.env.JWT_SECRET!;

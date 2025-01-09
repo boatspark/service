@@ -28,4 +28,26 @@ model User {
   email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Device    Device[]
+}
+
+model Device {
+  id         Int      @id @default(autoincrement())
+  userid     Int
+  user       User     @relation(fields: [userid], references: [id])
+  coreid     String   @unique
+  vesselName String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Sensor     Sensor[]
+}
+
+model Sensor {
+  id         Int      @id @default(autoincrement())
+  coreid     String
+  device     Device   @relation(fields: [coreid], references: [coreid])
+  macAddress String
+  sensorName String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

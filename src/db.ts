@@ -90,7 +90,14 @@ export const authenticateUser = async (username: string, password: string) => {
 
 export const userById = async (id: number) => {
   const user = await prisma.user.findUnique({
-    where: { id }
+    where: { id },
+    include: {
+      Device: {
+        include: {
+          Sensor: true,
+        },
+      },
+    },
   });
   if (!user) return undefined;
   user.password = "";

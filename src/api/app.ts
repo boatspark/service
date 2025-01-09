@@ -1,9 +1,19 @@
 import { Request, Response } from 'express';
-import { getLatestMonitorEvent } from '@/db';
+import { getLatestMonitorEvent, userById } from '@/db';
 
-export const handleTest = async (req: any, res: Response) => {
-  const userid = req.user.userid;
-  res.status(200).json({ message: 'test', id: userid });
+export const getUserInfo = async (req: any, res: Response) => {
+  try {
+    const userid = req.user.userid;
+    if (!userid) {
+      res.status(500).json({ message: 'Invalid user' });
+      return;
+    }
+    const user = await userById(userid);
+    res.status(200).json(user);
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).send({ message: error.message });
+  }
 };
 
 export const latestEvent = async (req: Request, res: Response) => {

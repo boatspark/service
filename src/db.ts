@@ -92,9 +92,9 @@ export const userById = async (id: number) => {
   const user = await prisma.user.findUnique({
     where: { id },
     include: {
-      Device: {
+      devices: {
         include: {
-          Sensor: true,
+          sensors: true,
         },
       },
     },

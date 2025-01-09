@@ -100,6 +100,6 @@ export const userById = async (id: number) => {
     },
   });
   if (!user) return undefined;
-  user.password = "";
-  return user;
+  const { password, ...userWithoutPassword } = user;
+  return userWithoutPassword;
 };

@@ -3,19 +3,22 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.user.upsert({
+  const user = await prisma.user.upsert({
     where: { email: "admin@boatspark.com" },
     update: {},
     create: {
       username: "admin",
       password: "$2a$10$gGAzAuxlgCfMBaa.Ty2FcuPvtY/UCaNwPXEyFQ.j5ChTmJfpKJqmq",
       email: "admin@boatspark.com",
-      Device: {
-        create: {
-          coreid: process.env.METRICS_ID || "unknown",
-          vesselName: "HMS Victory",
-        },
-      },
+    },
+  });
+  const device = await prisma.device.upsert({
+    where: { coreid: process.env.METRICS_ID || "unknown" },
+    update: {},
+    create: {
+      userid: user.id,
+      coreid: process.env.METRICS_ID || "unknown",
+      vesselName: "HMS Victory",
     },
   });
 }

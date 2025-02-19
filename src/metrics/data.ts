@@ -67,7 +67,7 @@ const processEvent = (data: string) => {
   };
 
   const event: MonitorEvent = JSON.parse(data);
-  if (event.v !== 1) throw new Error('Invalid event version');
+  if (event.v !== 1 && event.v !== 2) throw new Error('Invalid event version');
   const galleyMac = process.env.TEMP_GALLEY_MAC as string;
   const fridgeMac = process.env.TEMP_FRIDGE_MAC as string;
   const engineMac = process.env.TEMP_ENGINE_MAC as string;

@@ -7,10 +7,10 @@ export const handleEvent = async (req: Request, res: Response) => {
     if (!req.is('json')) throw new Error('Invalid content type');
     const data = req.body;
     if (!data || typeof data !== 'object') throw new Error('Invalid data');
-    if (!data.name || !data.data || !data.coreid || !data.published_at) throw new Error('Invalid event data');
+    if (!data.event || !data.data || !data.coreid || !data.published_at) throw new Error('Invalid event data');
     console.log(data);
 
-    if (data.name === "boatspark/monitor") {
+    if (data.event === "boatspark/monitor") {
       // Save monitor event to database
       await saveMonitorEvent({
         coreid: data.coreid,
@@ -18,7 +18,7 @@ export const handleEvent = async (req: Request, res: Response) => {
         published_at: new Date(data.published_at)
       });
       console.log("Monitor event saved");
-    } else if (data.name === "boatspark/alert") {
+    } else if (data.event === "boatspark/alert") {
       // Notify user of alert
       console.log("TODO: send alert notification");
       // Save alert in database

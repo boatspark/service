@@ -8,8 +8,8 @@ import basicAuth from 'express-basic-auth';
 export const router = express.Router();
 
 const deviceRouter = express.Router();
-router.use("/device", deviceRouter);
 router.use(express.json());
+router.use("/device", deviceRouter);
 
 deviceRouter.use(basicAuth({
   users: { [process.env.AUTH_USER as string]: process.env.AUTH_PASS as string },
